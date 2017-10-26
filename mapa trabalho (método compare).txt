@@ -1,0 +1,49 @@
+classe: Supermercado
+structs:
+
+-talho
+	
+
+-peixaria
+
+
+
+-padaria
+
+
+
+classe: funcionários
+structs:
+
+
+
+classe: empregados
+structs:
+
+
+
+classe: produtos
+structs:
+
+//métodocomparaçãodatas
+public bool comparardata(int a, int m, int d)
+res = false
+{
+if ano<atual
+cw fora de validade
+else if ano>atual
+cw compra
+else if ano=atual
+      if mes<atual
+	cw fora de validade
+	else if mes>atual
+	cw compra
+	else if mes=atual
+	if dia<atual
+	cw fora de validade
+	else if dia>=atual
+	cw compra
+return res;
+}
+	
+
