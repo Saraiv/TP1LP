@@ -24,26 +24,196 @@ structs:
 
 classe: produtos
 structs:
-
+/*********************************************/
 //métodocomparaçãodatas
 public bool comparardata(int a, int m, int d)
-res = false
 {
-if ano<atual
-cw fora de validade
-else if ano>atual
-cw compra
-else if ano=atual
-      if mes<atual
-	cw fora de validade
-	else if mes>atual
-	cw compra
-	else if mes=atual
-	if dia<atual
-	cw fora de validade
-	else if dia>=atual
-	cw compra
+bool res = false;
+int ano = 2015;
+int mes = 12;
+int dia = 12;
+if (ano<a)
+{
+console.writeline("fora de validade");
+res=false;
+else if(ano>a){
+console.writeline("compra");
+res=true
+}
+else if(ano=a){
+      if(m<mes){
+	console.writeline("fora de validade");
+res=false;
+}
+	else if(m>mes){
+	console.writeline("compra");
+res=true;
+}
+	else if(m=mes){
+	if(d<dia){
+	console.writeline("fora de validade");
+res=false;
+}
+	else if(dia>=atual){
+	console.writeline("compra");
+res=true;
+}
 return res;
 }
-	
 
+/*********************************************/
+ public float valorAPagar2(string n, int q)
+ 
+ {
+           
+	float res = 0.0F;
+            
+	Produto p = getSeExiste(n);
+            
+            
+	if(p != null)
+            
+	{
+                
+		if(p.Quantidade >= q)
+                
+		{
+                    
+			res = p.Preço * q;
+                
+		}
+
+  	}
+            
+	return res;
+}
+/***********************************************/
+
+public bool existeProduto(string n)
+        
+{
+
+            bool res = false;
+
+
+            foreach (Produto p in produtos)
+            
+{
+
+                if (n == p.NomeProd)
+                
+{
+                    
+res = true;
+               
+ }
+            
+}
+
+           
+ return res;
+      
+  }
+
+/**************************************************/
+
+public bool existeQuantidade(string n, int q)
+       
+ {
+
+            bool res = false;
+
+
+            if (existeProduto(n) == true)
+
+            {
+               
+ foreach (Produto p in produtos)
+              
+  {
+                   
+ if (q <= p.Quantidade && p.NomeProd == n)
+                 
+   {
+                    
+    res = true;
+              
+      }
+          
+      }
+        
+    }
+          
+  return res;
+       
+ }
+/**************************************************/
+
+public void daProduto(string n, int q)
+        
+{
+         
+   if (existeQuantidade(n, q) == true)
+       
+     {
+         
+       foreach (Produto p in produtos)
+         
+       {
+         
+           if (n == p.NomeProd)
+           
+         {
+              
+          p.Quantidade -= q;
+           
+         }
+       
+         }
+      
+      }
+    
+    }
+
+/***********************************************/
+
+funcoes necessarias
+-carrinho:
+//
+ public class DadosTemporarios
+    {
+        const string CHAVE_PEDIDOS = "PEDIDOS";
+
+    internal static void ArmazenaPedidos(Produto produtoDoPedido)
+    {
+        List<Produto> pedidos = RetornaPedidos() != null ?
+            Retornapedidos() : new List<Produto>();
+
+        pedidos.Add(produtoDoPedido);
+        HttpContext.Current.Session[CHAVE_PEDIDOS] = pedidos;
+    }
+
+    internal static void RemovePedidos(int id)
+    {
+        List<Produto> pedidos = RetornaPedidos();
+        pedidos.RemoveAt(id);
+        HttpContext.Current.Session[CHAVE_PEDIDOS] = pedidos;
+    }
+
+    internal static void RemovePedidos()
+    {
+        HttpContext.Current.Session[CHAVE_PEDIDOS] = new List<Produto>();
+    }
+
+    internal static List<Produto> RetornaPedidos()
+    {
+        return HttpContext.Current.Session[CHAVE_PEDIDOS] != null ?
+            (List<Produto>)HttpContext.Current.Session[CHAVE_PEDIDOS] : null;
+    }
+}
+ }
+https://pt.stackoverflow.com/questions/158423/criação-de-um-carrinho-de-compras
+-pagar
+-localização do produto
+-acrescentar e  remover produtos
+-saber numero de empregados
