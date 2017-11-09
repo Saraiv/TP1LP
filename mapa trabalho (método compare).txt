@@ -49,17 +49,20 @@ res=false;
 	console.writeline("compra");
 res=true;
 }
-	else if(m=mes){
+	else if(m=mes){ ***
 	if(d<dia){
 	console.writeline("fora de validade");
+	}
 res=false;
-}
+	}
 	else if(dia>=atual){
 	console.writeline("compra");
 res=true;
 }
 return res;
 }
+
+anox365+mesx30+dias
 
 /*********************************************/
  public float valorAPagar2(string n, int q)
