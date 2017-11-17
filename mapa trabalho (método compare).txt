@@ -220,3 +220,21 @@ https://pt.stackoverflow.com/questions/158423/criação-de-um-carrinho-de-compras
 -localização do produto
 -acrescentar e  remover produtos
 -saber numero de empregados
+
+/*******************************************************/
+
+Console.WriteLine("O que deseja?");
+string s = Console.ReadLine();
+Console.WriteLine("Quantos quer?");
+string n = Console.ReadLine();
+int q = Int32.Parse(n);
+if (b.existeQuantidade(s, q))
+{
+	Console.WriteLine("Aqui tem. Bom proveito.");
+        float v = b.valorAPagar2(s, q);
+        xxx.pagar(v, b);
+}
+else
+{
+	Console.WriteLine("Não existe o artigo ou as quantidades que pediu.");
+}
