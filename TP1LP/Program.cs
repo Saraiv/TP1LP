@@ -636,40 +636,49 @@ class Cliente
                                         Console.WriteLine(p.Nome + " preço -> " + p.Preco + "euros");
                                     }
                                 }
+                                Console.WriteLine("Nada");
                                 Console.WriteLine("\n");
                                 bool nada = false;
                                 while (!nada)
                                 {
                                     Console.WriteLine("O que deseja?");
                                     string s = Console.ReadLine();
-                                    Console.WriteLine("Quantos quer?");
-                                    string n = Console.ReadLine();
-                                    int q = Int32.Parse(n);
-                                    if (sw.existeQuantidade(s, q))
+                                    if(s == "Nada")
                                     {
-                                        Console.WriteLine("Aqui tem. Bom proveito.");
-                                        v += sw.valorAPagar(s, q);
+                                        cheio = true;
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Não existe o artigo ou as quantidades que pediu.");
+                                        Console.WriteLine("Quantos quer?");
+                                        string n = Console.ReadLine();
+                                        int q = Int32.Parse(n);
+                                        if (sw.existeQuantidade(s, q))
+                                        {
+                                            Console.WriteLine("Aqui tem. Bom proveito.");
+                                            v += sw.valorAPagar(s, q);
+                                        }
+                                        Console.WriteLine("Deseja continuar a compra? (s / n) ");
+                                        string r = Console.ReadLine();
+                                        if (r == "s" || r == "S")
+                                        {
+                                            nada = false;
+                                        }
+                                        if (r == "n" || r == "N")
+                                        {
+                                            nada = true;
+                                        }
+                                        
+                                        else
+                                        {
+                                            Console.WriteLine("Não existe o artigo ou as quantidades que pediu.");
+                                        }
                                     }
-                                    Console.WriteLine("Deseja continuar a compra? (s / n) ");
-                                    string r = Console.ReadLine();
-                                    if (r == "s" || r == "S")
-                                    {
-                                        nada = false;
-                                    }
-                                    if (r == "n" || r == "N")
-                                    {
-                                        nada = true;
+                                    nada = true;
                                     }
                                 }
                                 Console.Clear();
                                 cheio = true;
-                            }
-                            break;
-                        }
+                            }break;
                     case ("3"):
                         {
                             bool cheio = false;
