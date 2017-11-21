@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace TP1LP
 {
     class SuperMercado
@@ -177,6 +176,66 @@ namespace TP1LP
             return res;
         }
 
+        public void acrescentaP(string n, int q, string s)
+        {
+            bool acrescentarstock = false;
+            foreach (Produto p in produtos)
+            {
+                if (p.Nome == n)
+                {
+                    acrescentarstock = true;
+                }
+                else
+                {
+                    acrescentarstock = false;
+                }
+            }
+            foreach(Produto p in produtos)
+            if(acrescentarstock == true)
+            {
+                    p.Quantidade += q;
+            }
+        }
+
+        public void retirarP(string n, int q, string s)
+        {
+            bool retirarstock = false;
+            foreach (Produto p in produtos)
+            {
+                if (p.Nome == n)
+                {
+                    retirarstock = true;
+                }
+                else
+                {
+                    retirarstock = false;
+                }
+            }
+            foreach (Produto p in produtos)
+                if (retirarstock == true)
+                {
+                    p.Quantidade -= q;
+                }
+        }
+
+        public int numeroEmpregados()
+        {
+            return funcionarios.Count;
+        }
+
+        public string procurarP(string n)
+        {
+            string res = null;
+            foreach(Produto p in produtos)
+            {
+                if(p.Nome == n)
+                {
+                    res = p.Setor;
+                }
+            }
+            return res;
+        }
+
         public bool existeProduto(string n)
         {
             bool res = false;
@@ -205,30 +264,9 @@ namespace TP1LP
 
             return res;
         }
-
-        public string procurarP(string n)
-        {
-            string res = null;
-            foreach (Produto p in produtos)
-            {
-                if (p.Nome == n)
-                {
-                    res = p.Setor;
-                }
-            }
-            return res;
-        }
-
-        public int numeroEmpregados()
-        {
-            return funcionarios.Count;
-        }
-
     }
 
-    
-
-class Cliente
+    class Cliente
     {
         private string nome;
         private float dinheiro;
@@ -264,17 +302,6 @@ class Cliente
                 dinheiro = value;
             }
         }
-
-        public void pagar(float v, SuperMercado sw)
-        {
-            dinheiro -= v;
-            sw.Dinheiro += v;
-            if(dinheiro < v)
-            {
-                Console.WriteLine("Não tem dinheiro suficiente!");
-            }
-        }
-
     }
 
     class Funcionarios
@@ -450,62 +477,8 @@ class Cliente
             this.mes = mes;
             this.dia = dia;
         }
-    }
 
-    class Carrinho
-    {
-        private List<Produto> produtos;
-        private float dinheiro;
-        private int quantidade;
-
-        public List<Produto> Produtos
-        {
-            get
-            {
-                return produtos;
-            }
-
-            set
-            {
-                produtos = value;
-            }
-        }
-
-        public float Dinheiro
-        {
-            get
-            {
-                return dinheiro;
-            }
-
-            set
-            {
-                dinheiro = value;
-            }
-        }
-
-        public int Quantidade
-        {
-            get
-            {
-                return quantidade;
-            }
-
-            set
-            {
-                quantidade = value;
-            }
-        }
-
-        public Carrinho(List<Produto> produtos, float dinheiro, int quantidade)
-        {
-            this.Produtos = produtos;
-            this.Dinheiro = dinheiro;
-            this.Quantidade = quantidade;
-        }
-
-
-
+        
     }
 
 
@@ -515,10 +488,8 @@ class Cliente
 
         static void Main(string[] args)
         {
-            float v = 0.0f;
-            
             Cliente c1 = new Cliente("Tó", 10.0f);
-            Cliente c2 = new Cliente("Nha", 30.0f);
+            Cliente c2 = new Cliente("Nha", 500.0f);
 
             List<Cliente> clientes = new List<Cliente>();
             clientes.Add(c1);
@@ -582,88 +553,62 @@ class Cliente
             while (!acabar)
             {
                 Console.Clear();
-                Cliente ccc = sw.Fila.Peek();
                 Console.WriteLine("Bem vindo ao super mercado: ");
                 Console.WriteLine("1 - Procurar o produto");
                 Console.WriteLine("2 - Comprar produtos");
                 Console.WriteLine("3 - Pagar na caixa");
-                Console.WriteLine("4 - Número de empregados");
                 Console.WriteLine("0 - Sair\n");
                 string escolha = Console.ReadLine();
                 Console.Clear();
                 switch (escolha)
                 {
                     case ("1"):
-                    {
-                        Console.Clear();
-                        bool nada = false;
-                        while (nada == false)
                         {
-                            Console.WriteLine("Procurar o produto");
-                            foreach (Produto p in sw.Produtos)
+                            bool cheio = false;
+                            while (!cheio)
                             {
-                                Console.WriteLine(p.Nome);
+                                Cliente ccc = sw.Fila.Peek();
+                                Cliente cliente = sw.Fila.Peek();
+                                Console.Clear();
+                                Console.WriteLine("Procurar o produto");
+                                Console.WriteLine("Escreva o nome do produto: ");
+                                string produto = Console.ReadLine();
+                                Console.WriteLine("Produto encontrado no/a: " + sw.procurarP(produto));
+                                Console.Clear();
+                                cheio = true;
                             }
-                            Console.WriteLine("\n");
-                            Console.WriteLine("Escreva o nome do produto: ");
-                            string produto = Console.ReadLine();
-                            Console.WriteLine("Produto encontrado no/a: " + sw.procurarP(produto));
-                            Console.WriteLine("Deseja continuar? (s / n) ");
-                            string r = Console.ReadLine();
-                            if (r == "s" || r == "S")
-                            {
-                                nada = false;
-                            }
-                            if (r == "n" || r == "N")
-                            {
-                                nada = true;
-                            }
+                            break;
                         }
-                    }break;
-                  
                     case ("2"):
                         {
                             bool cheio = false;
                             while (!cheio)
                             {
+                                Cliente cliente = sw.Fila.Peek();
                                 Console.Clear();
                                 Console.WriteLine("Comprar produtos");
-                                //string comprar = Console.ReadLine();
+                                string comprar = Console.ReadLine();
                                 foreach (Produto p in sw.Produtos)
                                 {
                                     if (p.Quantidade > 0)
                                     {
-                                        Console.WriteLine(p.Nome + " preço -> " + p.Preco + "euros");
+                                        Console.WriteLine(p.Nome + " preço" + p.Preco);
                                     }
                                 }
-                                Console.WriteLine("\n");
-                                bool nada = false;
-                                while (!nada)
+                                Console.WriteLine("O que deseja?");
+                                string s = Console.ReadLine();
+                                Console.WriteLine("Quantos quer?");
+                                string n = Console.ReadLine();
+                                int q = Int32.Parse(n);
+                                if (sw.existeQuantidade(s, q))
                                 {
-                                    Console.WriteLine("O que deseja?");
-                                    string s = Console.ReadLine();
-                                    Console.WriteLine("Quantos quer?");
-                                    string n = Console.ReadLine();
-                                    int q = Int32.Parse(n);
-                                    if (sw.existeQuantidade(s, q))
-                                    {
-                                        Console.WriteLine("Aqui tem. Bom proveito.");
-                                        v += sw.valorAPagar(s, q);
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Não existe o artigo ou as quantidades que pediu.");
-                                    }
-                                    Console.WriteLine("Deseja continuar a compra? (s / n) ");
-                                    string r = Console.ReadLine();
-                                    if (r == "s" || r == "S")
-                                    {
-                                        nada = false;
-                                    }
-                                    if (r == "n" || r == "N")
-                                    {
-                                        nada = true;
-                                    }
+                                    Console.WriteLine("Aqui tem. Bom proveito.");
+                                    float v = b.valorAPagar2(s, q);
+                                    ccc.pagar(v, b);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Não existe o artigo ou as quantidades que pediu.");
                                 }
                                 Console.Clear();
                                 cheio = true;
@@ -675,62 +620,23 @@ class Cliente
                             bool cheio = false;
                             while (!cheio)
                             {
+                                Cliente cliente = sw.Fila.Peek();
                                 Console.Clear();
                                 Console.WriteLine("Pagar na caixa");
-                                bool nada = false;
-                                while (nada == false)
-                                {
-                                    Console.WriteLine("Preço total a pagar: " + v);
-                                    System.Console.ReadKey();
-                                    if (ccc.Dinheiro >= v)
-                                    {
-                                        ccc.pagar(v, sw);
-                                        Console.WriteLine("Bom proveito!");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Não tem dinheiro suficiente!");
-                                    }
-                                    System.Console.ReadKey();
-                                    nada = true;
-                                }
-                                
+                                float.Parse() = Console.ReadLine();
                                 Console.Clear();
                                 cheio = true;
-                            }
-                        }
-                        break;
-
-                    case ("4"):
-                        {
-                            Console.Clear();
-                            bool nada = false;
-                            while (nada == false)
-                            {
-                                Console.WriteLine("Número de empregados: " + sw.numeroEmpregados());
-                                Console.WriteLine("Voltar ao menu principal? (s / n) ");
-                                string r = Console.ReadLine();
-                                if (r == "s" || r == "S")
-                                {
-                                    nada = true;
-                                }
-                                if (r == "n" || r == "N")
-                                {
-                                    nada = false;
-                                }
-                            }
-                        }break;
-
+                             }
+                          }
+                          break;
                     case ("0"):
                         {
                             acabar = true;
-                            sw.menosUm(ccc);
                         }
                         break;
                     default:
                         {
                             Console.WriteLine("\nErro!!\n");
-                            System.Console.ReadKey();
                         }
                         break;
                 }

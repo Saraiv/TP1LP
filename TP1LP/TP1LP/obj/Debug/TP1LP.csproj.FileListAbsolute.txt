@@ -1,0 +1,6 @@
+c:\users\saraiva\documents\visual studio 2015\Projects\TP1LP\TP1LP\bin\Debug\TP1LP.exe.config
+c:\users\saraiva\documents\visual studio 2015\Projects\TP1LP\TP1LP\obj\Debug\TP1LP.csprojResolveAssemblyReference.cache
+C:\Users\Saraiva\documents\visual studio 2015\Projects\TP1LP\TP1LP\bin\Debug\TP1LP.exe
+C:\Users\Saraiva\documents\visual studio 2015\Projects\TP1LP\TP1LP\bin\Debug\TP1LP.pdb
+C:\Users\Saraiva\documents\visual studio 2015\Projects\TP1LP\TP1LP\obj\Debug\TP1LP.exe
+C:\Users\Saraiva\documents\visual studio 2015\Projects\TP1LP\TP1LP\obj\Debug\TP1LP.pdb
