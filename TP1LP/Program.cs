@@ -9,6 +9,7 @@ namespace TP1LP
 {
     class SuperMercado
     {
+        private string nome;
         private List<Cliente> clientes;
         private List<Funcionarios> funcionarios;
         private List<Setor> sectores;
@@ -108,7 +109,20 @@ namespace TP1LP
             }
         }
 
-        public SuperMercado(List<Cliente> clientes, List<Funcionarios> funcionarios, List<Setor> sectores, List<Produto> produtos, float dinheiro, Queue<Cliente> fila)
+        public string Nome
+        {
+            get
+            {
+                return nome;
+            }
+
+            set
+            {
+                nome = value;
+            }
+        }
+
+        public SuperMercado(string nome, List<Cliente> clientes, List<Funcionarios> funcionarios, List<Setor> sectores, List<Produto> produtos, float dinheiro, Queue<Cliente> fila)
         {
             this.Clientes = clientes;
             this.Funcionarios = funcionarios;
@@ -116,7 +130,9 @@ namespace TP1LP
             this.Produtos = produtos;
             this.Dinheiro = dinheiro;
             this.Fila = fila;
+            this.Nome = nome;
         }
+        
 
         public void maisUm(Cliente c)
         {
@@ -450,7 +466,51 @@ class Cliente
             this.mes = mes;
             this.dia = dia;
         }
-    }
+
+        public bool compararData(int a, int m, int d)
+        {
+            bool res = false;
+            int ano = 2018;
+            int mes = 9;
+            int dia = 30;
+            if (ano < a)
+            {
+                Console.WriteLine("Dentro de validade");
+                res = false;
+            }
+            else if (ano > a)
+            {
+                Console.WriteLine("Fora de validade");
+                res = true;
+            }
+            else if (ano == a)
+            {
+                if (mes < m)
+                {
+                    Console.WriteLine("Dentro de validade");
+                    res = false;
+                }
+                else if (mes > m)
+                {
+                    Console.WriteLine("Fora de validade");
+                    res = true;
+                }
+                else if (mes == m)
+                {
+                    if (dia < d)
+                    {
+                        Console.WriteLine("Dentro de validade");
+                    }
+                    res = false;
+                }
+                else if (dia >= d)
+                {
+                    Console.WriteLine("Fora de validade");
+                    res = true;
+                }
+            }
+            return res;
+            }
 
     class Carrinho
     {
@@ -505,8 +565,19 @@ class Cliente
         }
 
 
+        public void retirarProduto(List<Produto> c, Produto p, int q, string n)
+        {
+            foreach (Produto pr in c)
+            {
+                if (n == pr.Nome)
+                {
+                    pr.Quantidade += q;
+                }
+            }
+                c.Remove(n);
+            }
 
-    }
+        }
 
 
     class Program
@@ -517,63 +588,71 @@ class Cliente
         {
             float v = 0.0f;
             
-            Cliente c1 = new Cliente("Tó", 10.0f);
-            Cliente c2 = new Cliente("Nha", 30.0f);
+            Cliente c1 = new Cliente("Tó", 50.0f);
+            Cliente c2 = new Cliente("Nha", 20.0f);
 
             List<Cliente> clientes = new List<Cliente>();
             clientes.Add(c1);
             clientes.Add(c2);
-
-
-            Funcionarios fu1 = new Funcionarios("Marilia");
-            Funcionarios fu2 = new Funcionarios("Quimzé");
-            Funcionarios fu3 = new Funcionarios("Jaquim");
-
-            List<Funcionarios> funcionario1 = new List<Funcionarios>();
-            funcionario1.Add(fu1);
-
-            List<Funcionarios> funcionario2 = new List<Funcionarios>();
-            funcionario2.Add(fu2);
-
-            List<Funcionarios> funcionario3 = new List<Funcionarios>();
-            funcionario3.Add(fu3);
-
-
+            
 
             Funcionarios f1 = new Funcionarios("Marilia");
             Funcionarios f2 = new Funcionarios("Quimzé");
             Funcionarios f3 = new Funcionarios("Jaquim");
+            Funcionarios f4 = new Funcionarios("Zézoca");
+            Funcionarios f5 = new Funcionarios("André");
+
+            List<Funcionarios> funcionario1 = new List<Funcionarios>();
+            funcionario1.Add(f1);
+
+            List<Funcionarios> funcionario2 = new List<Funcionarios>();
+            funcionario2.Add(f2);
+
+            List<Funcionarios> funcionario3 = new List<Funcionarios>();
+            funcionario3.Add(f3);
+
+            List<Funcionarios> funcionario4 = new List<Funcionarios>();
+            funcionario3.Add(f4);
+
+            List<Funcionarios> funcionario5 = new List<Funcionarios>();
+            funcionario3.Add(f5);
 
             List<Funcionarios> funcionarios = new List<Funcionarios>();
             funcionarios.Add(f1);
             funcionarios.Add(f2);
             funcionarios.Add(f3);
+            funcionarios.Add(f4);
+            funcionarios.Add(f5);
 
             Setor s1 = new Setor(funcionario1, "Talho");
             Setor s2 = new Setor(funcionario2, "Padaria");
             Setor s3 = new Setor(funcionario3, "Peixaria");
+            Setor s4 = new Setor(funcionario4, "Charcutaria");
+            Setor s5 = new Setor(funcionario5, "Frutaria");
 
             List<Setor> sectores = new List<Setor>();
             sectores.Add(s1);
             sectores.Add(s2);
             sectores.Add(s3);
             
-            Produto p1 = new Produto("Frango", 20, 5.0f, "Talho", 2017, 10, 10);
-            Produto p2 = new Produto("Pão", 10, 1.0f, "Padaria", 2017, 10, 10);
-            Produto p3 = new Produto("Peru", 5, 5.0f, "Talho", 2017, 10, 10);
-            Produto p4 = new Produto("Salmão", 15, 5.0f, "Peixaria", 2017, 10, 10);
+            Produto p1 = new Produto("Frango", 20, 5.0f, "Talho", 2018, 10, 10);
+            Produto p2 = new Produto("Pão", 10, 1.0f, "Padaria", 1920, 10, 10);
+            Produto p3 = new Produto("Peru", 5, 5.0f, "Talho", 2018, 10, 10);
+            Produto p4 = new Produto("Salmão", 15, 5.0f, "Peixaria", 2018, 10, 10);
+            Produto p5 = new Produto("Cabaça", 20, 2.0f, "Frutaria", 2018, 10, 10);
+            Produto p6 = new Produto("Linguado", 20, 15.0f, "Charcutaria", 2018, 10, 10);
 
             List<Produto> produtos = new List<Produto>();
             produtos.Add(p1);
             produtos.Add(p2);
             produtos.Add(p3);
             produtos.Add(p4);
+            produtos.Add(p5);
+            produtos.Add(p6);
 
             Queue<Cliente> fila = new Queue<Cliente>();
-            fila.Enqueue(c1);
-            fila.Enqueue(c2);
-            
-            SuperMercado sw = new SuperMercado(clientes, funcionarios, sectores, produtos, 50.5f, fila);
+
+            SuperMercado sw = new SuperMercado("Continente" ,clientes, funcionarios, sectores, produtos, 50.5f, fila);
 
             sw.maisUm(c1);
             sw.maisUm(c2);
@@ -583,11 +662,13 @@ class Cliente
             {
                 Console.Clear();
                 Cliente ccc = sw.Fila.Peek();
-                Console.WriteLine("Bem vindo ao super mercado: ");
+                Console.Write("Bem vindo ao super mercado " + sw.Nome + ":");
+                Console.WriteLine("\t\t\t\t\t Cliente: " + ccc.Nome);
                 Console.WriteLine("1 - Procurar o produto");
                 Console.WriteLine("2 - Comprar produtos");
                 Console.WriteLine("3 - Pagar na caixa");
                 Console.WriteLine("4 - Número de empregados");
+                Console.WriteLine("5 - Verificar validade");
                 Console.WriteLine("0 - Sair\n");
                 string escolha = Console.ReadLine();
                 Console.Clear();
@@ -645,6 +726,7 @@ class Cliente
                                     string s = Console.ReadLine();
                                     if(s == "Nada")
                                     {
+                                        nada = true;
                                         cheio = true;
                                     }
                                     else
@@ -665,6 +747,7 @@ class Cliente
                                         }
                                         if (r == "n" || r == "N")
                                         {
+                                            cheio = true;
                                             nada = true;
                                         }
                                         
@@ -695,6 +778,7 @@ class Cliente
                                     {
                                         ccc.pagar(v, sw);
                                         Console.WriteLine("Bom proveito!");
+                                        sw.Fila.Dequeue();
                                     }
                                     else
                                     {
@@ -730,15 +814,45 @@ class Cliente
                             }
                         }break;
 
-                    case ("0"):
+                        case ("5"):
+                            {
+                                Console.Clear();
+                                bool nada = false;
+                                while (nada == false)
+                                {
+                                    Console.WriteLine("Insira o produto em questão: ");
+                                    string prod = Console.ReadLine();
+
+                                    if (sw.existeProduto(prod) == true)
+                                    {
+                                        Produto p = sw.getSeExiste(prod);
+                                        p.compararData(p.ano, p.mes, p.dia);
+                                    }
+
+                                    Console.WriteLine("Voltar ao menu principal? (s / n) ");
+                                    string r = Console.ReadLine();
+                                    if (r == "s" || r == "S")
+                                    {
+                                        nada = true;
+                                    }
+                                    if (r == "n" || r == "N")
+                                    {
+                                        nada = false;
+                                    }
+                                }
+                            }
+                            break;
+
+                        case ("0"):
                         {
                             acabar = true;
-                            sw.menosUm(ccc);
+                            sw.Fila.Dequeue();
                         }
                         break;
                     default:
                         {
                             Console.WriteLine("\nErro!!\n");
+                            sw.Fila.Dequeue();
                             System.Console.ReadKey();
                         }
                         break;
@@ -746,4 +860,5 @@ class Cliente
             }
         }
     }
+}
 }
