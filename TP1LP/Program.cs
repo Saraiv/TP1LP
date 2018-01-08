@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.IO;
 
 namespace TP1LP
 {
+    struct dados
+    {
+        public string nome;
+        public float dinheiro;
+        public int quantidade;
+    }
+
     class SuperMercado
     {
         private string nome;
@@ -132,7 +139,54 @@ namespace TP1LP
             this.Fila = fila;
             this.Nome = nome;
         }
-        
+
+        public void writeFile(string filename)
+        {
+            try
+            {
+                StreamWriter f = File.CreateText(filename);
+                f.WriteLine("Dados:");
+                foreach (dados d in clientes)
+                {
+                    f.WriteLine(d.nib);
+                    f.WriteLine(d.dinheiro);
+                }
+                f.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void readFile(string filename)
+        {
+            StreamReader sr;
+            string aux;
+            try
+            {
+                sr = new StreamReader(filename);
+                aux = sr.ReadLine();
+                while ((aux = sr.ReadLine()) != null)
+                {
+                    int n = Int32.Parse(aux);
+                    aux = sr.ReadLine();
+                    float d = float.Parse(aux);
+                    dados newd = new dados();
+                    newd.nome = n;
+                    newd.dinheiro = d;
+                    newd.quantidade = q;
+                    dados.Add(newd);
+                }
+                sr.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
 
         public void maisUm(Cliente c)
         {
@@ -358,7 +412,7 @@ class Cliente
     class Produto
     {
         string nome;
-        int quantidade;
+        float quantidade;
         float preco;
         string setor;
         int ano;
@@ -378,7 +432,7 @@ class Cliente
             }
         }
 
-        public int Quantidade
+        public float Quantidade
         {
             get
             {
@@ -574,7 +628,7 @@ class Cliente
                     pr.Quantidade += q;
                 }
             }
-                c.Remove(n);
+                c.Remove(p);
             }
 
         }
@@ -582,9 +636,39 @@ class Cliente
 
     class Program
     {
+            public static void readFromFile(string path, List<Produto> p)
+            {
+                string l;
+                try
+                {
+                    StreamReader r = new StreamReader(path);
+                    Produto aux;
+                    for (int i = 0; i < p.Count; i++)
+                    {
+                        aux = p.ElementAt(i);
+                        l = r.ReadLine();//Produto
+                        l = r.ReadLine();//nome
+                        aux.nome = l;
+                        l = r.ReadLine();//preço
+                        aux.preco = float.Parse(l);
+                        l = r.ReadLine();//quantidade
+                        aux.quantidade = float.Parse(l);
+                        l = r.ReadLine();//ano
+                        aux.ano = int.Parse(l);
+                        l = r.ReadLine();//mes
+                        aux.mes = int.Parse(l);
+                        l = r.ReadLine();//dia
+                        aux.dia = int.Parse(l);
+                    }
+                    r.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
 
-
-        static void Main(string[] args)
+            static void Main(string[] args)
         {
             float v = 0.0f;
             
@@ -653,6 +737,13 @@ class Cliente
             Queue<Cliente> fila = new Queue<Cliente>();
 
             SuperMercado sw = new SuperMercado("Continente" ,clientes, funcionarios, sectores, produtos, 50.5f, fila);
+
+
+            string ondeestou = Directory.GetCurrentDirectory();
+            string filename = ondeestou + "/../../../dadosMB.txt";
+            
+            sw.readFile(filename);
+
 
             sw.maisUm(c1);
             sw.maisUm(c2);
