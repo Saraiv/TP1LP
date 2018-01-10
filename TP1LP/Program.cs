@@ -24,6 +24,7 @@ namespace TP1LP
         private float dinheiro;
         private SortedList<string, Produto> stock;
         private Queue<Cliente> fila;
+        private List<dados> dados;
 
         public List<Cliente> Clientes
         {
@@ -129,6 +130,19 @@ namespace TP1LP
             }
         }
 
+        internal List<dados> Dados
+        {
+            get
+            {
+                return dados;
+            }
+
+            set
+            {
+                dados = value;
+            }
+        }
+
         public SuperMercado(string nome, List<Cliente> clientes, List<Funcionarios> funcionarios, List<Setor> sectores, List<Produto> produtos, float dinheiro, Queue<Cliente> fila)
         {
             this.Clientes = clientes;
@@ -146,10 +160,11 @@ namespace TP1LP
             {
                 StreamWriter f = File.CreateText(filename);
                 f.WriteLine("Dados:");
-                foreach (dados d in clientes)
+                foreach (Produto p in produtos)
                 {
-                    f.WriteLine(d.nib);
-                    f.WriteLine(d.dinheiro);
+                    f.WriteLine(p.Nome);
+                    f.WriteLine(p.Preco);
+                    f.WriteLine(p.Quantidade);
                 }
                 f.Close();
             }
@@ -169,14 +184,13 @@ namespace TP1LP
                 aux = sr.ReadLine();
                 while ((aux = sr.ReadLine()) != null)
                 {
-                    int n = Int32.Parse(aux);
                     aux = sr.ReadLine();
                     float d = float.Parse(aux);
                     dados newd = new dados();
-                    newd.nome = n;
+                    string n = newd.nome;
                     newd.dinheiro = d;
-                    newd.quantidade = q;
-                    dados.Add(newd);
+                    int q = newd.quantidade;
+                    Dados.Add(newd);
                 }
                 sr.Close();
             }
@@ -304,6 +318,7 @@ class Cliente
         private float dinheiro;
 
         public Cliente(string nome, float dinheiro)
+            
         {
             this.nome = nome;
             this.dinheiro = dinheiro;
@@ -377,9 +392,12 @@ class Cliente
         private string nome;
 
         public Setor(List<Funcionarios> funcionarios, string nome)
+            
         {
             this.funcionarios = funcionarios;
             this.nome = nome;
+          
+
         }
 
         public string Nome
@@ -411,13 +429,14 @@ class Cliente
 
     class Produto
     {
-        string nome;
-        float quantidade;
-        float preco;
-        string setor;
-        int ano;
-        int mes;
-        int dia;
+        protected string nome;
+        protected float quantidade;
+        protected float preco;
+        protected int iva;
+        protected string setor;
+        protected int ano;
+        protected int mes;
+        protected int dia;
 
         public string Nome
         {
@@ -510,6 +529,11 @@ class Cliente
             }
         }
 
+        public virtual float valorAPagar(int quantidade)
+        {
+            return (quantidade * preco) * iva;
+        }
+
         public Produto(string nome, int quantidade, float preco, string setor, int ano, int mes, int dia)
         {
             this.nome = nome;
@@ -565,6 +589,14 @@ class Cliente
             }
             return res;
             }
+/*
+        class Vinho : Produto
+        {
+            private float grau;
+
+
+
+        }*/
 
     class Carrinho
     {
@@ -696,10 +728,10 @@ class Cliente
             funcionario3.Add(f3);
 
             List<Funcionarios> funcionario4 = new List<Funcionarios>();
-            funcionario3.Add(f4);
+            funcionario4.Add(f4);
 
             List<Funcionarios> funcionario5 = new List<Funcionarios>();
-            funcionario3.Add(f5);
+            funcionario5.Add(f5);
 
             List<Funcionarios> funcionarios = new List<Funcionarios>();
             funcionarios.Add(f1);
@@ -708,17 +740,6 @@ class Cliente
             funcionarios.Add(f4);
             funcionarios.Add(f5);
 
-            Setor s1 = new Setor(funcionario1, "Talho");
-            Setor s2 = new Setor(funcionario2, "Padaria");
-            Setor s3 = new Setor(funcionario3, "Peixaria");
-            Setor s4 = new Setor(funcionario4, "Charcutaria");
-            Setor s5 = new Setor(funcionario5, "Frutaria");
-
-            List<Setor> sectores = new List<Setor>();
-            sectores.Add(s1);
-            sectores.Add(s2);
-            sectores.Add(s3);
-            
             Produto p1 = new Produto("Frango", 20, 5.0f, "Talho", 2018, 10, 10);
             Produto p2 = new Produto("Pão", 10, 1.0f, "Padaria", 1920, 10, 10);
             Produto p3 = new Produto("Peru", 5, 5.0f, "Talho", 2018, 10, 10);
@@ -736,14 +757,35 @@ class Cliente
 
             Queue<Cliente> fila = new Queue<Cliente>();
 
+            // Setor s1 = new Setor(funcionario1, "Talho");
+            Setor s1 = new Setor(funcionario1, "Talho");
+            //Setor s2 = new Setor(funcionario2, "Padaria");
+            Setor s2 = new Setor(funcionario2, "Padaria");
+            //Setor s3 = new Setor(funcionario3, "Peixaria");
+            Setor s3 = new Setor(funcionario3, "Peixaria");
+            //Setor s4 = new Setor(funcionario4, "Charcutaria");
+            Setor s4 = new Setor(funcionario4, "Charcutaria");
+            //Setor s5 = new Setor(funcionario5, "Frutaria");
+            Setor s5 = new Setor(funcionario5, "Frutaria");
+
+                List<Setor> sectores = new List<Setor>();
+            sectores.Add(s1);
+            sectores.Add(s2);
+            sectores.Add(s3);
+            
+           
+
+            
+
             SuperMercado sw = new SuperMercado("Continente" ,clientes, funcionarios, sectores, produtos, 50.5f, fila);
 
+               
 
             string ondeestou = Directory.GetCurrentDirectory();
             string filename = ondeestou + "/../../../dadosMB.txt";
-            
-            sw.readFile(filename);
 
+                //sw.writeFile(filename);
+                sw.readFile(filename);
 
             sw.maisUm(c1);
             sw.maisUm(c2);
